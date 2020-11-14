@@ -1,3 +1,3 @@
 # -*- coding:utf-8 -*-
 
-"""Views for app."""
+"""App entry point."""

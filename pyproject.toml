@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "HTTP-file-rep"
+name = "HTTP-file-repo"
 version = "0.1.0"
 description = ""
 authors = ["Andrka <lozhnikov.andrei@gmail.com>"]
