@@ -26,7 +26,7 @@ if __name__ != '__main__':
     app.logger.setLevel(gunicorn_logger.level)
 
 
-@app.route('/upload', methods=['POST'])
+@app.route('/upload', methods=['POST'])  # noqa: WPS210, WPS212, WPS213, WPS231
 def upload():  # noqa: WPS210, WPS212, WPS213, WPS231
     """Upload file to the store and return file's md5 hash."""
     if 'file' not in request.files:

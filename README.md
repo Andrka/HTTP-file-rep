@@ -56,26 +56,26 @@ To stop:
 1) Uploading file:
 
 After attempting to POST file to the `server_domain_name_or_IP_address/upload` you can receive next HTTP codes:
-200 - if file was uploaded
-400 - if request did not contain file
-409 - if file already exists
-500 - if server had IO errors
+- 200 - if file was uploaded
+- 400 - if request did not contain file
+- 409 - if file already exists
+- 500 - if server had IO errors
 
 2) Downloading file:
 
 After attempting to GET file from the `server_domain_name_or_IP_address/download/file_hash` you can receive next HTTP codes:
-200 - if file was downloaded
-400 - if given file hash was incorrect
-404 - if file does not exist
-500 - if server had IO errors
+- 200 - if file was downloaded
+- 400 - if given file hash was incorrect
+- 404 - if file does not exist
+- 500 - if server had IO errors
 
 3) Deleting file:
 
 After attempting to DELETE file from the `server_domain_name_or_IP_address/delete/file_hash` you can receive next HTTP codes:
-200 - if file was deleted
-400 - if given file hash was incorrect
-404 - if file does not exist
-500 - if server had IO errors
+- 200 - if file was deleted
+- 400 - if given file hash was incorrect
+- 404 - if file does not exist
+- 500 - if server had IO errors
 
 ### Development
 
