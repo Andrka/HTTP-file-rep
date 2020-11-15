@@ -1,6 +1,6 @@
 ## HTTP-file-repo
 
-[![Maintainability](https://api.codeclimate.com/v1/badges/cfa75e3247df27b551c1/maintainability)](https://codeclimate.com/github/Andrka/HTTP-file-repo/maintainability) <a href="https://codeclimate.com/github/Andrka/HTTP-file-repo/test_coverage"><img src="https://api.codeclimate.com/v1/badges/cfa75e3247df27b551c1/test_coverage" /></a> [![Build Status](https://travis-ci.org/Andrka/HTTP-file-repo.svg?branch=main)](https://travis-ci.org/Andrka/HTTP-file-repo) [![Github Actions Status](https://github.com/Andrka/HTTP-file-repo/workflows/Python%20CI/badge.svg)](https://github.com/Andrka/HTTP-file-repo/actions)
+[![Build Status](https://travis-ci.org/Andrka/HTTP-file-repo.svg?branch=main)](https://travis-ci.org/Andrka/HTTP-file-repo) [![Github Actions Status](https://github.com/Andrka/HTTP-file-repo/workflows/Python%20CI/badge.svg)](https://github.com/Andrka/HTTP-file-repo/actions)
 
 HTTP-file-repo is a written in Python (using Flask) HTTP API for upload, download and delete files. This app is serving by Gunicorn in daemon mode.
 
