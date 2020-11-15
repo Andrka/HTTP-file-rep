@@ -1,14 +1,16 @@
 ## HTTP-file-repo
 
-HTTP-file-repo is a written in Python (using Flask) HTTP API for upload, download and delete files. This app is serving with Gunicorn in daemon mode.
+[![Maintainability](https://api.codeclimate.com/v1/badges/cfa75e3247df27b551c1/maintainability)](https://codeclimate.com/github/Andrka/HTTP-file-repo/maintainability) <a href="https://codeclimate.com/github/Andrka/HTTP-file-repo/test_coverage"><img src="https://api.codeclimate.com/v1/badges/cfa75e3247df27b551c1/test_coverage" /></a> [![Build Status](https://travis-ci.org/Andrka/HTTP-file-repo.svg?branch=main)](https://travis-ci.org/Andrka/HTTP-file-repo) [![Github Actions Status](https://github.com/Andrka/HTTP-file-repo/workflows/Python%20CI/badge.svg)](https://github.com/Andrka/HTTP-file-repo/actions)
+
+HTTP-file-repo is a written in Python (using Flask) HTTP API for upload, download and delete files. This app is serving by Gunicorn in daemon mode.
 
 You can upload, download and delete files.
 
-Upload: app receives file, returns his hash and saves file to 'store/ab/abcdef12345...', where 'ab' is first two letters of file hash and 'abcdef12345...' - new file name from full file hash.
+Upload: app receives file (with POST method), returns his hash and saves file to 'store/ab/abcdef12345...', where 'ab' is first two letters of file hash and 'abcdef12345...' - new file name from full file hash.
 
-Download: app receives file hash and returns file if it exists.
+Download: app receives file hash (with GET method) and returns file if it exists.
 
-Delete: app receives file hash and deletes file if it exists.
+Delete: app receives file hash (with DELETE method) and deletes file if it exists.
 
 ### Prerequisites
 
@@ -37,24 +39,43 @@ or install requirements using requirements.txt by yourself:
 
 By default, HTTP API Daemon will be on 8001 port.
 
-To start HTTP API Daemon run in the cloned directory:
+To start HTTP API Daemon run in the cloned directory (poetry is needed):
 
 `make run`
 
-(bash command: gunicorn --bind 0.0.0.0:8001 http_file_repo.wsgi:app --daemon)
+Or use bash command (without poetry):
+
+`gunicorn --bind 0.0.0.0:8001 HTTP-file-repo.wsgi:app --daemon`
 
 To stop:
 
 `make stop`
 
-(bash command: kill -9 \`ps aux | grep gunicorn | grep http_file_repo | awk '{ print $2 }'\`)
+(kill -9 \`ps aux | grep gunicorn | grep http_file_repo | awk '{ print $2 }'\`)
 
 1) Uploading file:
 
+After attempting to POST file to the `server_domain_name_or_IP_address/upload` you can receive next HTTP codes:
+200 - if file was uploaded
+400 - if request did not contain file
+409 - if file already exists
+500 - if server had IO errors
+
 2) Downloading file:
+
+After attempting to GET file from the `server_domain_name_or_IP_address/download/file_hash` you can receive next HTTP codes:
+200 - if file was downloaded
+400 - if given file hash was incorrect
+404 - if file does not exist
+500 - if server had IO errors
 
 3) Deleting file:
 
+After attempting to DELETE file from the `server_domain_name_or_IP_address/delete/file_hash` you can receive next HTTP codes:
+200 - if file was deleted
+400 - if given file hash was incorrect
+404 - if file does not exist
+500 - if server had IO errors
 
 ### Development
 

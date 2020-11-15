@@ -12,8 +12,11 @@ test:
 
 check: lint test
 
+local:
+	poetry run python http_file_repo/app.py
+
 run:
-	bash -c "gunicorn --bind 0.0.0.0:8001 http_file_repo.wsgi:app --daemon""
+	poetry run bash -c "gunicorn --bind 0.0.0.0:8001 http_file_repo.wsgi:app --daemon"
 
 stop:
-	bash -c "kill -9 `ps aux | grep gunicorn | grep http_file_repo | awk '{ print $2 }'`"
+	./stop.sh
