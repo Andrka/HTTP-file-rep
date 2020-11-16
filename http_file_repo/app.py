@@ -7,6 +7,7 @@ import logging
 import os
 
 from flask import Flask, request, send_file
+from werkzeug.exceptions import HTTPException, NotFound
 
 from http_file_repo import values
 
@@ -37,7 +38,7 @@ def upload():  # noqa: WPS210, WPS212, WPS213, WPS231
         app.logger.error('No selected file')
         return 'No selected file', 400
     file_hash = hashlib.md5(upload_file.read()).hexdigest()  # noqa: S303
-    file_path = os.path.join(STORE_DIR, file_hash[:2], file_hash)
+    file_path = os.path.join(os.getcwd(), STORE_DIR, file_hash[:2], file_hash)
     file_dir = os.path.dirname(file_path)
     if os.path.exists(STORE_DIR):
         if os.path.exists(file_dir):
@@ -48,7 +49,7 @@ def upload():  # noqa: WPS210, WPS212, WPS213, WPS231
                 return 'This file already exists', 409
         else:
             try:
-                os.mkdir(file_hash[:2])
+                os.mkdir(file_dir)
             except (IOError, OSError) as exc:
                 app.logger.debug(exc, exc_info=True)
                 app.logger.error("Can't create the dir: {0}".format(exc))
@@ -62,6 +63,7 @@ def upload():  # noqa: WPS210, WPS212, WPS213, WPS231
                 app.logger.debug(exc, exc_info=True)
                 app.logger.error("Can't create the dir: {0}".format(exc))
                 return "Can't save the file", 500
+    upload_file.stream.seek(0)
     try:
         upload_file.save(file_path)
     except (IOError, OSError) as exc:  # noqa: WPS440
@@ -77,25 +79,25 @@ def download(file_hash):
     if not values.is_correct_hash(file_hash):
         app.logger.error('Bad hash format: {0}'.format(file_hash))
         return 'Bad hash format', 400
-    file_path = os.path.join(STORE_DIR, file_hash[:2], file_hash)
+    file_path = os.path.join(os.getcwd(), STORE_DIR, file_hash[:2], file_hash)
     if not os.path.exists(file_path):
         app.logger.error("This file doesn't exist: {0}".format(file_path))
         return "This file doesn't exist", 404
     try:
-        return send_file(file_path, as_attachment=True)
-    except (IOError, OSError) as exc:
+        return send_file(file_path)
+    except (IOError, OSError, HTTPException, NotFound) as exc:
         app.logger.debug(exc, exc_info=True)
         app.logger.error("Can't download the file: {0}".format(exc))
         return "Can't download the file", 500
 
 
-@app.route('/delete/<file_hash>', methods=['DETELE'])
+@app.route('/delete/<file_hash>', methods=['DELETE'])
 def delete(file_hash):
     """Delete file from the store by received hash."""
     if not values.is_correct_hash(file_hash):
         app.logger.error('Bad hash format: {0}'.format(file_hash))
         return 'Bad hash format', 400
-    file_path = os.path.join(STORE_DIR, file_hash[:2], file_hash)
+    file_path = os.path.join(os.getcwd(), STORE_DIR, file_hash[:2], file_hash)
     if not os.path.exists(file_path):
         app.logger.error("This file doesn't exist: {0}".format(file_path))
         return "This file doesn't exist", 404

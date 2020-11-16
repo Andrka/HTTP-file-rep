@@ -6,6 +6,7 @@ import pytest
 
 from http_file_repo import values
 
+
 @pytest.mark.parametrize(
     'sample_value, expected_result',
     [
